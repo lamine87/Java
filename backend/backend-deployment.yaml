@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-backend
+  namespace: "hello-world-app"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+  template:
+    metadata:
+      labels:
+        app: helloworld
+    spec:
+      containers:
+        - name: hello-backend
+          image: helloworld:0.0.1
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+            requests:
+              cpu: "0.5"
+              memory: "256Mi"
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: postgres
+          env:
+            - name: DATABASE_DRIVER
+              value: "org.postgresql.Driver"
+            - name: DATABASE_URL
+              value: "jdbc:postgresql://postgres.hello-world-app.svc/db"

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres
+  namespace: "hello-world-app"
+data:
+  POSTGRES_DB: "helloworld_postgres"
